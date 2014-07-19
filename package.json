@@ -1,0 +1,41 @@
+{
+  "name": "traceuroso",
+  "version": "0.0.0",
+  "description": "Write and run ECMAScript.next Node.js packages without any build steps.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UltCombo/traceuroso.git"
+  },
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "keywords": [
+    "es6",
+    "es7",
+    "es.next",
+    "ecmascript.next",
+    "js.next",
+    "javascript.next",
+    "traceur"
+  ],
+  "author": {
+    "name": "Ult Combo",
+    "email": "ultcombo@gmail.com"
+  },
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/UltCombo/traceuroso/issues"
+  },
+  "homepage": "https://github.com/UltCombo/traceuroso",
+  "dependencies": {
+    "traceur": "0.0.50"
+  },
+  "devDependencies": {
+    "mocha": "^1.20.1",
+    "should": "^4.0.4"
+  }
+}
