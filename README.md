@@ -44,8 +44,6 @@ See the API section below for details.
 <entryPointExports> traceuroso(packageRoot[, entryPoint='index'])
 ```
 
-## Parameters
-
 - `packageRoot` (string): the root directory of the package to traceurosofy. All `.js` files inside of `packageRoot`, except those inside of `packageRoot`'s `node_modules` directory, will be compiled using Traceur when `require()`d or `import`ed.
 - `entryPoint` (string): the file path to your package's main file (your `package.json`'s original `main` file), relative to `packageRoot`. Defaults to `index`.
 - *returns*: `entryPoint`'s exports. You should re-export these in order to make them available to the files which `require()` your package.
