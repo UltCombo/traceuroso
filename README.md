@@ -2,7 +2,7 @@
 
 Write and run ECMAScript.next Node.js packages without any build steps.
 
-# Advantages
+# Purpose
 
 - **ECMAScript.next**: make use of the next generation JavaScript features today through the quantum time travelling magic of [Traceur](https://github.com/google/traceur-compiler).
 - **Modularity**: traceuroso is enabled per package, thus it does not conflict with your package's dependencies nor packages which depend upon your package.
