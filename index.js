@@ -11,3 +11,7 @@ module.exports = function(packageRoot, entryPoint) {
 
 	return require(path.join(packageRoot, entryPoint));
 };
+
+
+// For testing only. Do not use, may be changed or removed anytime.
+module.exports._requireMakeDefault = requireMakeDefault;

@@ -1,4 +1,8 @@
 # traceuroso
+[![NPM version](https://badge.fury.io/js/traceuroso.png)](https://npmjs.org/package/traceuroso)
+[![Build Status](https://travis-ci.org/UltCombo/traceuroso.png?branch=master)](https://travis-ci.org/UltCombo/traceuroso)
+[![Dependency Status](https://david-dm.org/UltCombo/traceuroso.png)](https://david-dm.org/UltCombo/traceuroso)
+[![devDependency Status](https://david-dm.org/UltCombo/traceuroso/dev-status.png)](https://david-dm.org/UltCombo/traceuroso#info=devDependencies)
 
 Write and run ECMAScript.next Node.js packages without any build steps.
 
