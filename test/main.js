@@ -8,6 +8,7 @@ var fixPath = path.join(__dirname, 'fixtures');
 
 var toUnlink = [];
 before(function() {
+	var esNextCode = fs.readFileSync(path.join(fixPath, 'es_next.js'));
 	[
 		['es_next-1', 'index.js'],
 		['es_next-1', 'other.js'],
@@ -15,11 +16,10 @@ before(function() {
 	].forEach(function(pathSegments) {
 		var targetPath = path.join.apply(path, [fixPath, 'node_modules'].concat(pathSegments));
 		mkdirp.sync(path.dirname(targetPath));
-		fs.writeFileSync(targetPath, fs.readFileSync(path.join(fixPath, 'es_next.js')));
+		fs.writeFileSync(targetPath, esNextCode);
 		toUnlink.push(targetPath);
 	});
 });
-
 after(toUnlink.forEach.bind(toUnlink, fs.unlinkSync));
 
 
