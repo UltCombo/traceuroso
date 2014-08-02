@@ -20,30 +20,31 @@ before(function() {
 	});
 });
 
-after(function() {
-	toUnlink.forEach(fs.unlinkSync);
-});
+after(toUnlink.forEach.bind(toUnlink, fs.unlinkSync));
 
 
 describe('traceuroso', function() {
 
 	beforeEach(function() {
-		// "Disable" the overloaded require().
+		// empty the module cache
+		Object.keys(require.cache).forEach(function(filePath) {
+			delete require.cache[filePath];
+		});
+
+		disableRequireProxy(traceuroso);
+	});
+
+	function disableRequireProxy(traceuroso) {
 		// The first makeDefault() call with no arguments empties the filters list,
 		// the second call adds a filter which always returns false.
-		// This is necessary because the current overloaded require() implementation
+		// This is necessary because the current require() proxy implementation
 		// will traceur the required file if there are no filters or if any filter returns true.
 		// makeDefault() implementation: https://github.com/google/traceur-compiler/blob/master/src/node/require.js
 		traceuroso._requireMakeDefault();
 		traceuroso._requireMakeDefault(function() {
 			return false;
 		});
-
-		// empty the module cache
-		Object.keys(require.cache).forEach(function(filePath) {
-			delete require.cache[filePath];
-		});
-	});
+	}
 
 	it('should throw on ES.next code without traceuroso', function() {
 		require.bind(null, path.join(fixPath, 'es_next')).should.throw();
@@ -89,5 +90,8 @@ describe('traceuroso', function() {
 
 		// should still be able to require() ES.next files in package 1
 		require(path.join(fixPath, 'node_modules', 'es_next-1', 'other')).exports.should.be.ok;
+
+		// Test finished, clean up
+		disableRequireProxy(traceuroso2);
 	});
 });
