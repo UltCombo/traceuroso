@@ -37,6 +37,7 @@ module.exports = require('traceuroso')(__dirname, 'index');
 index.js
 
 ```js
+// Just write your ES.next code naturally =]
 let my = ((awesome, es6) => 'code')('shine!');
 ```
 
