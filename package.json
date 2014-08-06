@@ -1,6 +1,6 @@
 {
   "name": "traceuroso",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Write and run ECMAScript.next Node.js packages without any build steps.",
   "main": "index.js",
   "scripts": {
