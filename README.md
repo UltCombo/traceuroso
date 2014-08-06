@@ -24,7 +24,7 @@ Create a traceuroso bootstrapping file and set it as your package's entry point.
 
 package.json
 
-```
+```js
 "main": "bootstrap.js"
 ```
 
@@ -59,3 +59,9 @@ entryPointExports = traceuroso(packageRoot[, entryPoint='index'][, compileOption
 The bootstrapping file is the first file to be executed when your package is required. It is responsible for loading Traceur, compiling and running your package, as well as re-exporting your package's exports. Review the Usage and API sections for example and details.
 
 Note that as the bootstrapping file is `require()`'d and executed directly by Node.js before the package is traceurosofied, the bootstrapping file must contain only valid Node.js code that can run without Traceur's aid.
+
+# Changelog
+
+- **0.0.3**: added `compileOptions` parameter, replaced `traceur.require.makeDefault()` with own implementation.
+- **0.0.2**: no longer version locks Traceur, added full test coverage, documentation improvements.
+- **0.0.1**: initial release.
