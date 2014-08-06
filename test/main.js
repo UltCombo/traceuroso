@@ -4,7 +4,8 @@ var traceuroso = require('../'),
 	mkdirp = require('mkdirp');
 require('should');
 
-var fixPath = path.join(__dirname, 'fixtures');
+var fixPath = path.join(__dirname, 'fixtures'),
+	compileErrReg = RegExp('^' + traceuroso._compileErrPrefix.replace(/\W/g, '\\$&'));
 
 var toUnlink = [];
 before(function() {
@@ -31,20 +32,8 @@ describe('traceuroso', function() {
 			delete require.cache[filePath];
 		});
 
-		disableRequireProxy(traceuroso);
+		traceuroso._reset();
 	});
-
-	function disableRequireProxy(traceuroso) {
-		// The first makeDefault() call with no arguments empties the filters list,
-		// the second call adds a filter which always returns false.
-		// This is necessary because the current require() proxy implementation
-		// will traceur the required file if there are no filters or if any filter returns true.
-		// makeDefault() implementation: https://github.com/google/traceur-compiler/blob/master/src/node/require.js
-		traceuroso._requireMakeDefault();
-		traceuroso._requireMakeDefault(function() {
-			return false;
-		});
-	}
 
 	it('should throw on ES.next code without traceuroso', function() {
 		require.bind(null, path.join(fixPath, 'es_next')).should.throw();
@@ -62,6 +51,17 @@ describe('traceuroso', function() {
 		traceuroso(fixPath, 'x').x.should.equal('x');
 	});
 
+	it('should set the compiler options', function() {
+		// tests traceuroso(packageRoot, compileOptions) and traceuroso(packageRoot, entryPoint, compileOptions)
+		[[], 'other.js'].forEach(function(entryPoint) {
+			var curriedTraceuroso = traceuroso.bind.apply(traceuroso, [traceuroso, path.join(fixPath, 'node_modules', 'es_next-1')].concat(entryPoint));
+			curriedTraceuroso.bind(curriedTraceuroso, {}).should.throw(compileErrReg);
+			traceuroso._reset();
+			curriedTraceuroso({ experimental: true }).exports.should.be.ok;
+			traceuroso._reset();
+		});
+	});
+
 	it('should transpile and execute imported files', function() {
 		traceuroso(fixPath, 're-export_x').x.should.equal('x');
 	});
@@ -75,7 +75,7 @@ describe('traceuroso', function() {
 		traceuroso(fixPath + '/node_modules/../.', 'node_modules/../x').x.should.equal('x');
 	});
 
-	it('should work when used as a dependency of multiple packages', function() {
+	it('Modularity: packageRoot filters', function() {
 		// traceurosofy package 1
 		traceuroso(path.join(fixPath, 'node_modules', 'es_next-1'));
 
@@ -92,6 +92,26 @@ describe('traceuroso', function() {
 		require(path.join(fixPath, 'node_modules', 'es_next-1', 'other')).exports.should.be.ok;
 
 		// Test finished, clean up
-		disableRequireProxy(traceuroso2);
+		traceuroso2._reset();
+	});
+
+	it('Modularity: compileOptions', function() {
+		traceuroso(path.join(fixPath, 'node_modules', 'es_next-1'), { experimental: true });
+
+		var traceuroso2 = require('../');
+		traceuroso.should.not.equal(traceuroso2);
+
+		traceuroso2.bind(traceuroso2, path.join(fixPath, 'node_modules', 'es_next-2'), {}).should.throw(compileErrReg);
+
+		// should handle multiple packages per traceuroso instance
+		traceuroso(fixPath, {}).index.should.be.ok;
+
+		// should use the compileOptions associated with the given packageRoot
+		require(path.join(fixPath, 'node_modules', 'es_next-1', 'other')).exports.should.be.ok;
+		require.bind(null, path.join(fixPath, 'node_modules', 'es_next-2')).should.throw(compileErrReg);
+		require.bind(null, path.join(fixPath, 'es_next')).should.throw(compileErrReg);
+
+		// clean up
+		traceuroso2._reset();
 	});
 });
