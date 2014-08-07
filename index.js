@@ -5,15 +5,16 @@ var compile = require('traceur').compile,
 	fs = require('fs'),
 	Module = require('module'),
 	previousRequireJs = Module._extensions['.js'],
-	packageRoots = {}, // packageRoot: compileOptions
+	packages = {}, // packageRoot: compileOptions
 	compileErrPrefix = 'traceuroso: traceur.compile error: ';
 
 Module._extensions['.js'] = function(module, filePath) {
 	var options;
-	if (Object.keys(packageRoots).some(function(packageRoot) {
-		return filePath.startsWith(packageRoot + path.sep)
-			&& !filePath.startsWith(path.join(packageRoot, 'node_modules') + path.sep)
-			&& (options = packageRoots[packageRoot]);
+	if (Object.keys(packages).some(function(packageRoot) {
+		if (filePath.startsWith(packageRoot + path.sep) && !filePath.startsWith(path.join(packageRoot, 'node_modules') + path.sep)) {
+			options = packages[packageRoot];
+			return true;
+		}
 	})) {
 		var results = compile(fs.readFileSync(filePath, { encoding: 'utf8' }), options);
 		if (!results.js) {
@@ -33,13 +34,13 @@ module.exports = function(packageRoot, entryPoint, compileOptions) {
 	entryPoint = entryPoint || 'index';
 	compileOptions = compileOptions || { experimental: true };
 
-	packageRoots[packageRoot] = compileOptions;
+	packages[packageRoot] = compileOptions;
 	return require(path.join(packageRoot, entryPoint));
 };
 
 
 // For testing only. Do not use, may be changed or removed anytime.
 module.exports._reset = function() {
-	packageRoots = {};
+	packages = {};
 };
 module.exports._compileErrPrefix = compileErrPrefix;

@@ -60,8 +60,13 @@ The bootstrapping file is the first file to be executed when your package is req
 
 Note that as the bootstrapping file is `require()`'d and executed directly by Node.js before the package is traceurosofied, the bootstrapping file must contain only valid Node.js code that can run without Traceur's aid.
 
+# Optimization
+
+In order to avoid loading the Traceur compiler multiple times, it is recommended to run [`npm dedupe traceuroso`](https://www.npmjs.org/doc/cli/npm-dedupe.html) in the downstream package, or install traceuroso in the downstream package before installing the other dependencies.
+
 # Changelog
 
+- **0.0.4**: added optimization section to documentation, improved source code readability.
 - **0.0.3**: added `compileOptions` parameter, replaced `traceur.require.makeDefault()` with own implementation.
 - **0.0.2**: no longer version locks Traceur, added full test coverage, documentation improvements.
 - **0.0.1**: initial release.
