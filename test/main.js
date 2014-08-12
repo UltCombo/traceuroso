@@ -1,3 +1,5 @@
+'use strict';
+
 var traceuroso = require('../'),
 	path = require('path'),
 	fs = require('fs'),
