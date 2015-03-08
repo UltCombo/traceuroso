@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/UltCombo/traceuroso",
   "dependencies": {
-    "traceur": "0.0.x"
+    "traceur": ">= 0.0.86"
   },
   "devDependencies": {
     "mkdirp": "^0.5.0",

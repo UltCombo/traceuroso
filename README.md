@@ -70,6 +70,8 @@ In order to avoid loading the Traceur compiler multiple times, it is recommended
 
 # Changelog
 
+- **0.0.6**: set a more specific Traceur version dependency in `package.json`.
+- **0.0.5**: updated the internal Traceur API usage to work with the latest Traceur version (v0.0.86 at the time of publishing), improved compilation error stack trace, bumped dependencies, deprecated traceuroso in favor of slush-es20xx.
 - **0.0.4**: added optimization section to documentation, improved source code readability.
 - **0.0.3**: added `compileOptions` parameter, replaced `traceur.require.makeDefault()` with own implementation.
 - **0.0.2**: no longer version locks Traceur, added full test coverage, documentation improvements.
