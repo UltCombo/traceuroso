@@ -3,10 +3,10 @@
 This package has been deprecated in favor of [slush-es20xx](https://github.com/es6rocks/slush-es20xx), which provides a better, full ECMAScript.next development and deployment workflow.
 
 # traceuroso
-[![NPM version](https://badge.fury.io/js/traceuroso.png)](https://npmjs.org/package/traceuroso)
-[![Build Status](https://travis-ci.org/UltCombo/traceuroso.png?branch=master)](https://travis-ci.org/UltCombo/traceuroso)
-[![Dependency Status](https://david-dm.org/UltCombo/traceuroso.png)](https://david-dm.org/UltCombo/traceuroso)
-[![devDependency Status](https://david-dm.org/UltCombo/traceuroso/dev-status.png)](https://david-dm.org/UltCombo/traceuroso#info=devDependencies)
+[![npm version](http://img.shields.io/npm/v/traceuroso.svg)](https://npmjs.org/package/traceuroso)
+[![Build Status](http://img.shields.io/travis/UltCombo/traceuroso.svg)](https://travis-ci.org/UltCombo/traceuroso)
+[![Dependency Status](http://img.shields.io/david/UltCombo/traceuroso.svg)](https://david-dm.org/UltCombo/traceuroso)
+[![devDependency Status](http://img.shields.io/david/dev/UltCombo/traceuroso.svg)](https://david-dm.org/UltCombo/traceuroso#info=devDependencies)
 
 Write and run ECMAScript.next Node.js packages without any build steps.
 
