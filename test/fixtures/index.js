@@ -1,1 +1,1 @@
-export var index = [for (i of [true]) i][0];
+export var index = (() => 42)();

@@ -6,7 +6,7 @@ var compile = require('traceur').compile,
 	Module = require('module'),
 	previousRequireJs = Module._extensions['.js'],
 	packages = {}, // packageRoot: compileOptions
-	compileErrPrefix = 'traceuroso: traceur.compile error: ';
+	defaultOptions = traceur.util.Options.experimental().setFromObject({ modules: 'commonjs' });
 
 Module._extensions['.js'] = function(module, filePath) {
 	var options;
@@ -16,11 +16,7 @@ Module._extensions['.js'] = function(module, filePath) {
 			return true;
 		}
 	})) {
-		var results = compile(fs.readFileSync(filePath, { encoding: 'utf8' }), options);
-		if (!results.js) {
-			throw new Error(compileErrPrefix + results.errors[0]);
-		}
-		return module._compile(results.js, filePath);
+		return module._compile(compile(fs.readFileSync(filePath, { encoding: 'utf8' }), options), filePath);
 	}
 	return previousRequireJs(module, filePath);
 };
@@ -32,7 +28,7 @@ module.exports = function(packageRoot, entryPoint, compileOptions) {
 		entryPoint = undefined;
 	}
 	entryPoint = entryPoint || 'index';
-	compileOptions = compileOptions || { experimental: true };
+	compileOptions = compileOptions || defaultOptions;
 
 	packages[packageRoot] = compileOptions;
 	return require(path.join(packageRoot, entryPoint));
@@ -43,4 +39,4 @@ module.exports = function(packageRoot, entryPoint, compileOptions) {
 module.exports._reset = function() {
 	packages = {};
 };
-module.exports._compileErrPrefix = compileErrPrefix;
+module.exports._defaultOptions = defaultOptions;

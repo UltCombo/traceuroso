@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This package has been deprecated in favor of [slush-es20xx](https://github.com/es6rocks/slush-es20xx), which provides a better, full ECMAScript.next development and deployment workflow.
+
 # traceuroso
 [![NPM version](https://badge.fury.io/js/traceuroso.png)](https://npmjs.org/package/traceuroso)
 [![Build Status](https://travis-ci.org/UltCombo/traceuroso.png?branch=master)](https://travis-ci.org/UltCombo/traceuroso)
@@ -46,12 +50,12 @@ See the API section below for details.
 # API
 
 ```js
-entryPointExports = traceuroso(packageRoot[, entryPoint='index'][, compileOptions={experimental:true}])
+entryPointExports = traceuroso(packageRoot[, entryPoint='index'][, compileOptions=traceur.util.Options.experimental().setFromObject({ modules: 'commonjs' })])
 ```
 
 - `packageRoot` (string): the root directory of the package to traceurosofy. All `.js` files inside of `packageRoot`, except those inside of `packageRoot`'s `node_modules` directory, will be compiled using Traceur when `require()`d or `import`ed.
 - `entryPoint` (string, optional): the file path to your package's main file (your `package.json`'s original `main` file), relative to `packageRoot`. Defaults to `index`.
-- `compileOptions` (object, optional): the options passed to the Traceur compiler. See Traceur's [Options.js](https://github.com/google/traceur-compiler/blob/master/src/Options.js) for available options and values. Useful for parsing ES.next semantics without applying transformations (e.g. `{ blockBinding: 'parse' }` for usage with the Node.js `--harmony` flag). Defaults to `{ experimental: true }`.
+- `compileOptions` (object, optional): the options passed to the Traceur compiler. See Traceur's [Options.js](https://github.com/google/traceur-compiler/blob/master/src/Options.js) for available options and values. Useful for parsing ES.next semantics without applying transformations (e.g. `{ blockBinding: 'parse' }` for usage with the Node.js `--harmony` flag). Defaults to all options enabled by default plus all experimental options enabled.
 - *returns*: `entryPoint`'s exports. You should re-export these in order to make them available to the files which `require()` your package.
 
 # The traceuroso bootstrapping file

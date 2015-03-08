@@ -6,8 +6,7 @@ var traceuroso = require('../'),
 	mkdirp = require('mkdirp');
 require('should');
 
-var fixPath = path.join(__dirname, 'fixtures'),
-	compileErrReg = RegExp('^' + traceuroso._compileErrPrefix.replace(/\W/g, '\\$&'));
+var fixPath = path.join(__dirname, 'fixtures');
 
 var toUnlink = [];
 before(function() {
@@ -57,9 +56,9 @@ describe('traceuroso', function() {
 		// tests traceuroso(packageRoot, compileOptions) and traceuroso(packageRoot, entryPoint, compileOptions)
 		[[], 'other.js'].forEach(function(entryPoint) {
 			var curriedTraceuroso = traceuroso.bind.apply(traceuroso, [traceuroso, path.join(fixPath, 'node_modules', 'es_next-1')].concat(entryPoint));
-			curriedTraceuroso.bind(curriedTraceuroso, {}).should.throw(compileErrReg);
+			curriedTraceuroso.bind(curriedTraceuroso, {}).should.throw();
 			traceuroso._reset();
-			curriedTraceuroso({ experimental: true }).exports.should.be.ok;
+			curriedTraceuroso(traceuroso._defaultOptions).exports.should.be.ok;
 			traceuroso._reset();
 		});
 	});
@@ -98,20 +97,20 @@ describe('traceuroso', function() {
 	});
 
 	it('Modularity: compileOptions', function() {
-		traceuroso(path.join(fixPath, 'node_modules', 'es_next-1'), { experimental: true });
+		traceuroso(path.join(fixPath, 'node_modules', 'es_next-1'), traceuroso._defaultOptions);
 
 		var traceuroso2 = require('../');
 		traceuroso.should.not.equal(traceuroso2);
 
-		traceuroso2.bind(traceuroso2, path.join(fixPath, 'node_modules', 'es_next-2'), {}).should.throw(compileErrReg);
+		traceuroso2.bind(traceuroso2, path.join(fixPath, 'node_modules', 'es_next-2'), {}).should.throw();
 
 		// should handle multiple packages per traceuroso instance
 		traceuroso(fixPath, {}).index.should.be.ok;
 
 		// should use the compileOptions associated with the given packageRoot
 		require(path.join(fixPath, 'node_modules', 'es_next-1', 'other')).exports.should.be.ok;
-		require.bind(null, path.join(fixPath, 'node_modules', 'es_next-2')).should.throw(compileErrReg);
-		require.bind(null, path.join(fixPath, 'es_next')).should.throw(compileErrReg);
+		require.bind(null, path.join(fixPath, 'node_modules', 'es_next-2')).should.throw();
+		require.bind(null, path.join(fixPath, 'es_next')).should.throw();
 
 		// clean up
 		traceuroso2._reset();
