@@ -1,6 +1,6 @@
 # DEPRECATED
 
-This package has been deprecated in favor of [slush-es20xx](https://github.com/es6rocks/slush-es20xx), which provides a better, full ECMAScript.next development and deployment workflow.
+This package has been deprecated in favor of [slush-es20xx](https://github.com/es6rocks/slush-es20xx), which provides a better, fully optimized ECMAScript.next development and deployment workflow.
 
 # traceuroso
 [![npm version](http://img.shields.io/npm/v/traceuroso.svg)](https://npmjs.org/package/traceuroso)
